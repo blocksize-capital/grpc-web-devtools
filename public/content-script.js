@@ -15,16 +15,18 @@ function injectors(msgSource) {
   const requestMethodName = (req) => req?.getMethodDescriptor().name ?? 'Unknown'
 
   const postMessage = (type, name, reqMsg, resMsg, error) => {
+    const rawError = error;
     const request = reqMsg?.toObject();
     const response = error ? undefined : resMsg?.toObject();
-    error = error ? (({code, message}) => ({ code, message }))(error) : error;
+    error = error ? (({code, message}) => ({code, message}))(error) : error;
     const msg = {
       source: msgSource,
       methodType: type,
       method: name,
       request,
       response,
-      error
+      error,
+      rawError
     };
     window.postMessage(msg, '*');
   }
@@ -47,7 +49,9 @@ function injectors(msgSource) {
       const name = requestMethodName(request);
       return invoker(request)
         .then((response) => this.postResponse(name, request, response))
-        .catch((error) => { throw this.postError(name, request, error) });
+        .catch((error) => {
+          throw this.postError(name, request, error)
+        });
     }
   }
 
@@ -117,9 +121,11 @@ function injectors(msgSource) {
         };
 
         removeListener(eventType, callback) {
+          this.stream.removeListener(eventType, callback);
         }
 
         cancel() {
+          this.stream.cancel();
         }
       }
 

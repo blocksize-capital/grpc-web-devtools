@@ -1,8 +1,8 @@
 {
-  "name": "gRPC-Web Developer Tools",
-  "version": "1.2.1",
+  "name": "Blocksize Capital: gRPC-Web Developer Tools",
+  "version": "1.2.2",
   "manifest_version": 2,
-  "description": "gRPC-Web Developer Tools for debugging application's gRPC-Web network requests.",
+  "description": "(Blocksize) gRPC-Web Developer Tools for debugging application's gRPC-Web network requests.",
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
